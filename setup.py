@@ -1,8 +1,8 @@
 from setuptools import setup, find_packages
-
+exec(open('setup_package/__init__.py').read())
 setup(
     name="Setup-Package",
-    version="0.0.1",
+    version=__version__,
     packages=find_packages(),
     author="Saad Habib",
     description="Version management for Colab notebooks",
