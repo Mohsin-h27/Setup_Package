@@ -15,6 +15,8 @@ def run_setup():
     from . import __version__
     VERSION = __version__
     
+    print(f"Running setup with version: {VERSION}")
+    
     # Define paths
     CONTENT_DIR = '/content'
     APIS_DIR = os.path.join(CONTENT_DIR, 'APIs')
