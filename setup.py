@@ -15,6 +15,6 @@ setup(
     ],
     author="Saad Habib",
     description="API setup automation for Colab notebooks",
-    url="https://github.com/Mohsin-h27/Setup_Package.git,
+    url="https://github.com/Mohsin-h27/Setup_Package.git",
     python_requires='>=3.6',
 )
