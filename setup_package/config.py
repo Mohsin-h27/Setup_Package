@@ -5,7 +5,7 @@
 # --- Main Control Switch ---
 # If True: The script will automatically use the `GLOBAL_VERSION` below.
 # If False: The script will ask for a Colab ID and use the `VERSION_MAPPING`.
-SWITCH = True
+SWITCH = False
 
 # --- Global Version Setting ---
 # This is the version of the API FILES that will be installed when SWITCH is True.
