@@ -14,21 +14,21 @@ from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseDownload
 
 # Import your settings from the config.py file
-from .config import SWITCH, GLOBAL_VERSION, SHEET_ID
+from .config import SWITCH, GLOBAL_VERSION, SHEET_ID, SHEET_TAB_NAME
 
 def _get_mapping_from_sheet():
     """
-    Connects to Google Sheets using its ID, reads the version data, and builds
-    the version mapping dictionary dynamically.
+    Connects to Google Sheets using its ID, reads data from the specific tab
+    defined in config.py, and builds the version mapping dictionary.
     """
-    print(f"Reading version mapping from Google Sheet ID: '{SHEET_ID}'...")
+    print(f"Reading version mapping from Google Sheet ID '{SHEET_ID}', Tab: '{SHEET_TAB_NAME}'...")
     try:
-        # This now uses the credentials we already got from authenticating the user.
+        # This uses the credentials we already got from authenticating the user.
         creds, _ = default()
         gc = gspread.authorize(creds)
         
-        # Open the sheet by its unique ID and get all records from the first tab.
-        worksheet = gc.open_by_key(SHEET_ID).sheet1
+        # Open the sheet by its unique ID and get the specific worksheet (tab) by its name.
+        worksheet = gc.open_by_key(SHEET_ID).worksheet(SHEET_TAB_NAME)
         records = worksheet.get_all_records()
         
         dynamic_mapping = {}
@@ -50,6 +50,10 @@ def _get_mapping_from_sheet():
         print(f"\n❌ Error: The Google Sheet with ID '{SHEET_ID}' was not found.")
         print("Please ensure the ID in config.py is correct and that you have shared the sheet.")
         sys.exit("Setup aborted: Spreadsheet not found.")
+    except gspread.exceptions.WorksheetNotFound:
+        print(f"\n❌ Error: The tab named '{SHEET_TAB_NAME}' was not found in the Google Sheet.")
+        print("Please check the SHEET_TAB_NAME in your config.py file.")
+        sys.exit("Setup aborted: Worksheet not found.")
     except Exception as e:
         print(f"\n❌ Error: Could not read or process the Google Sheet: {e}")
         sys.exit("Setup aborted: Failed to get version mapping from sheet.")
@@ -76,7 +80,6 @@ def run_setup(version: str):
             else:
                 os.remove(path)
     
-    # We no longer need to authenticate here, as it's done in main()
     drive_service = build('drive', 'v3')
     
     def download_drive_file(service, file_id, output_path, show_progress=True):
@@ -159,8 +162,7 @@ def main(colab_id: str = None):
     """
     Main entry point. Decides which version to use based on config.py.
     """
-    # --- FIX: Authenticate the user once at the very beginning ---
-    # This will pop up the Google login and permission screen.
+    # Authenticate the user once at the very beginning.
     auth.authenticate_user()
     print("User authenticated successfully.")
     
@@ -169,6 +171,7 @@ def main(colab_id: str = None):
         version_to_use = GLOBAL_VERSION
         print(f"Global switch is ON. Using global version: {version_to_use}")
     else:
+        # The script now reads the sheet and tab name directly from the config.
         VERSION_MAPPING = _get_mapping_from_sheet()
         
         if not colab_id:
