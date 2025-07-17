@@ -1,7 +1,4 @@
 # setup_package/config.py
-
-# This file holds all your settings. Edit these values to change the script's behavior.
-
 # --- Main Control Switch ---
 # If True: The script will automatically use the `GLOBAL_VERSION` below.
 # If False: The script will ask for a Colab ID and use the `VERSION_MAPPING`.
