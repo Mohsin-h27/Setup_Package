@@ -1,19 +1,18 @@
 # setup_package/config.py
+
+# This file holds all your settings.
+
 # --- Main Control Switch ---
-# If True: The script will automatically use the `GLOBAL_VERSION` below.
-# If False: The script will ask for a Colab ID and use the `VERSION_MAPPING`.
-SWITCH = False
+# If True: The script will IGNORE the Colab ID and use `GLOBAL_VERSION`.
+# If False: The script will read the Google Sheet using the ID below.
+SWITCH = False # <-- Set to False to enable reading the Google Sheet
 
 # --- Global Version Setting ---
-# This is the version of the API FILES that will be installed when SWITCH is True.
+# This is only used when SWITCH is True.
 GLOBAL_VERSION = "0.0.8"
 
-# --- Specific Version Mapping ---
-# This dictionary maps a Colab ID to a specific API version.
+# --- Google Sheet Configuration ---
 # This is only used when SWITCH is False.
-VERSION_MAPPING = {
-    '1001': '0.0.4',
-    '1002': '0.0.8',
-    '1003': '0.0.1',
-    # Add more Colab IDs and their corresponding versions here
-}
+# Find this ID in the URL of your Google Sheet.
+# Example URL: https://docs.google.com/spreadsheets/d/THIS_IS_THE_ID/edit
+SHEET_ID = "1woSzszD4WoJPNQqfQ-o0Pg2GwTT1En-4z5e2T1R1Tlw" # <-- REPLACE WITH YOUR ACTUAL SHEET ID
