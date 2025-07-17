@@ -9,7 +9,7 @@ SWITCH = False # <-- Set to False to enable reading the Google Sheet
 
 # --- Global Version Setting ---
 # This is only used when SWITCH is True.
-GLOBAL_VERSION = "0.0.8"
+GLOBAL_VERSION = "0.0.6"
 
 # --- Google Sheet Configuration ---
 # This is only used when SWITCH is False.
