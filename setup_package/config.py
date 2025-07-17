@@ -20,4 +20,4 @@ SHEET_ID = "14neNkLpLNhtYntcv8vipyreP7y1aq16M9" # <-- REPLACE WITH YOUR ACTUAL S
 
 # The exact name of the tab (worksheet) inside your Google Sheet to read from.
 # For example: "Sheet1", "Latest Working Version", "Autorun_Results"
-SHEET_TAB_NAME = "Latest Working Version"
+SHEET_TAB_NAME = "Sheet1"
