@@ -33,7 +33,7 @@ setup(
         "google-auth-httplib2",
         "google-api-python-client",
     ],
-    author="Saad",
+    author="Mohsin",
     description="API setup automation for Colab notebooks",
     url="https://github.com/Mohsin-h27/Setup_Package.git",
     python_requires='>=3.6',
