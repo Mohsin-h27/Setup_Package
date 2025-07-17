@@ -5,7 +5,7 @@
 # --- Main Control Switch ---
 # If True: The script will IGNORE the Colab ID and use `GLOBAL_VERSION`.
 # If False: The script will read the Google Sheet using the ID and Tab Name below.
-SWITCH = False # <-- Set to False to enable reading the Google Sheet
+SWITCH = True # <-- Set to False to enable reading the Google Sheet
 
 # --- Global Version Setting ---
 # This is only used when SWITCH is True.
