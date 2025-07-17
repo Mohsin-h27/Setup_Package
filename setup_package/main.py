@@ -144,42 +144,44 @@ def run_setup(version: str):
     print(f"\n🎉 All setup complete! Version {version} is ready to use.")
 
 
-def main():
+def main(colab_id: str = None):
     """
     This is the main entry point you call from your Colab notebook.
-    It decides which version to use based on your config.py settings,
-    and then it calls run_setup() to do the installation.
+    It decides which version to use based on your config.py settings
+    and the provided colab_id.
+    
+    Args:
+        colab_id (str): The unique ID for the Colab notebook.
     """
     
     version_to_use = None
-    # This block implements your requested logic exactly.
     if SWITCH:
-        # If the switch is on, use the global version automatically.
+        # If the switch is on, IGNORE the colab_id and use the global version.
         version_to_use = GLOBAL_VERSION
         print(f"Global switch is ON. Using global version: {version_to_use}")
+        if colab_id:
+            print(f"(Ignoring provided Colab ID: '{colab_id}')")
     else:
-        # If the switch is off, ask the user for the Colab ID.
-        print("Global switch is OFF. Please provide the Colab ID.")
-        try:
-            colab_id = input("Enter the Colab ID for this notebook: ")
-            if colab_id in VERSION_MAPPING:
-                # If the ID is found in the mapping, use that version.
-                version_to_use = VERSION_MAPPING[colab_id]
-                print(f"Found version for Colab ID '{colab_id}': {version_to_use}")
-            else:
-                # If the ID is not found, print an error and stop the script.
-                # This enforces your rule: "if not version than not run that colab"
-                print(f"\n❌ Error: Colab ID '{colab_id}' not found in the version mapping.")
-                print("Please add the ID to 'setup_package/config.py' or check for typos.")
-                sys.exit("Setup aborted: Invalid Colab ID.")
-        except KeyboardInterrupt:
-            print("\nSetup cancelled by user.")
-            sys.exit()
+        # If the switch is off, USE the colab_id to find the version.
+        print(f"Global switch is OFF. Using Colab ID: '{colab_id}'")
+        if not colab_id:
+            print("\n❌ Error: Switch is OFF but no Colab ID was provided.")
+            sys.exit("Setup aborted: Missing Colab ID.")
+            
+        if colab_id in VERSION_MAPPING:
+            # If the ID is found in the mapping, use that version.
+            version_to_use = VERSION_MAPPING[colab_id]
+            print(f"Found version for Colab ID '{colab_id}': {version_to_use}")
+        else:
+            # If the ID is not found, print an error and stop the script.
+            print(f"\n❌ Error: Colab ID '{colab_id}' not found in the version mapping.")
+            print("Please add the ID to 'setup_package/config.py' or check for typos.")
+            sys.exit("Setup aborted: Invalid Colab ID.")
     
     # After figuring out the version, call the setup function to do the work.
     if version_to_use:
         run_setup(version=version_to_use)
     else:
-        # This case should not be reached due to the sys.exit calls above, but it's here for safety.
+        # This case should not be reached due to the sys.exit calls above.
         print("Error: Could not determine a version to use.")
         sys.exit("Setup aborted.")
