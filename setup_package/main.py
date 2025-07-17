@@ -159,8 +159,7 @@ def main(colab_id: str = None):
         # If the switch is on, IGNORE the colab_id and use the global version.
         version_to_use = GLOBAL_VERSION
         print(f"Global switch is ON. Using global version: {version_to_use}")
-        if colab_id:
-            print(f"(Ignoring provided Colab ID: '{colab_id}')")
+        
     else:
         # If the switch is off, USE the colab_id to find the version.
         print(f"Global switch is OFF. Using Colab ID: '{colab_id}'")
