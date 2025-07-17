@@ -23,7 +23,7 @@ def _get_mapping_from_sheet():
     """
     print(f"Reading version mapping from Google Sheet ID: '{SHEET_ID}'...")
     try:
-        # This authenticates the user and gets credentials for Google APIs.
+        # This now uses the credentials we already got from authenticating the user.
         creds, _ = default()
         gc = gspread.authorize(creds)
         
@@ -75,8 +75,10 @@ def run_setup(version: str):
                 shutil.rmtree(path)
             else:
                 os.remove(path)
-    auth.authenticate_user()
+    
+    # We no longer need to authenticate here, as it's done in main()
     drive_service = build('drive', 'v3')
+    
     def download_drive_file(service, file_id, output_path, show_progress=True):
         request = service.files().get_media(fileId=file_id)
         with io.FileIO(output_path, 'wb') as fh:
@@ -157,6 +159,11 @@ def main(colab_id: str = None):
     """
     Main entry point. Decides which version to use based on config.py.
     """
+    # --- FIX: Authenticate the user once at the very beginning ---
+    # This will pop up the Google login and permission screen.
+    auth.authenticate_user()
+    print("User authenticated successfully.")
+    
     version_to_use = None
     if SWITCH:
         version_to_use = GLOBAL_VERSION
